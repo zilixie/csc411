@@ -1,0 +1,672 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Programming/Coding Assignment
+% LaTeX Template
+%
+% This template has been downloaded from:
+% http://www.latextemplates.com
+%
+% Original author:
+% Ted Pavlic (http://www.tedpavlic.com)
+%
+% Note:
+% The \lipsum[#] commands throughout this template generate dummy text
+% to fill the template out. These commands should all be removed when 
+% writing assignment content.
+%
+% This template uses a Perl script as an example snippet of code, most other
+% languages are also usable. Configure them in the "CODE INCLUSION 
+% CONFIGURATION" section.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass{article}
+
+\usepackage{fancyhdr} % Required for custom headers
+\usepackage{lastpage} % Required to determine the last page for the footer
+\usepackage{extramarks} % Required for headers and footers
+\usepackage[usenames,dvipsnames]{color} % Required for custom colors
+\usepackage{graphicx} % Required to insert images
+\usepackage{subcaption}
+\usepackage{listings} % Required for insertion of code
+\usepackage{courier} % Required for the courier font
+\usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
+\usepackage{tikz, pgfplots}
+% Margins
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\linespread{1.1} % Line spacing
+
+% Set up the header and footer
+\pagestyle{fancy}
+\lhead{\hmwkAuthorName} % Top left header
+\chead{\hmwkClass\ (\hmwkClassTime): \hmwkTitle} % Top center head
+%\rhead{\firstxmark} % Top right header
+\lfoot{\lastxmark} % Bottom left footer
+\cfoot{} % Bottom center footer
+\rfoot{Page\ \thepage\ of\ \protect\pageref{LastPage}} % Bottom right footer
+\renewcommand\headrulewidth{0.4pt} % Size of the header rule
+\renewcommand\footrulewidth{0.4pt} % Size of the footer rule
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs
+
+%----------------------------------------------------------------------------------------
+%	CODE INCLUSION CONFIGURATION
+%----------------------------------------------------------------------------------------
+
+\definecolor{MyDarkGreen}{rgb}{0.0,0.4,0.0} % This is the color used for comments
+\lstloadlanguages{Perl} % Load Perl syntax for listings, for a list of other languages supported see: ftp://ftp.tex.ac.uk/tex-archive/macros/latex/contrib/listings/listings.pdf
+\lstset{language=Perl, % Use Perl in this example
+        frame=single, % Single frame around code
+        basicstyle=\small\ttfamily, % Use small true type font
+        keywordstyle=[1]\color{Blue}\bf, % Perl functions bold and blue
+        keywordstyle=[2]\color{Purple}, % Perl function arguments purple
+        keywordstyle=[3]\color{Blue}\underbar, % Custom functions underlined and blue
+        identifierstyle=, % Nothing special about identifiers                                         
+        commentstyle=\usefont{T1}{pcr}{m}{sl}\color{MyDarkGreen}\small, % Comments small dark green courier font
+        stringstyle=\color{Purple}, % Strings are purple
+        showstringspaces=false, % Don't put marks in string spaces
+        tabsize=5, % 5 spaces per tab
+        %
+        % Put standard Perl functions not included in the default language here
+        morekeywords={rand},
+        %
+        % Put Perl function parameters here
+        morekeywords=[2]{on, off, interp},
+        %
+        % Put user defined functions here
+        morekeywords=[3]{test},
+       	%
+        morecomment=[l][\color{Blue}]{...}, % Line continuation (...) like blue comment
+        numbers=left, % Line numbers on left
+        firstnumber=1, % Line numbers start with line 1
+        numberstyle=\tiny\color{Blue}, % Line numbers are blue and small
+        stepnumber=5 % Line numbers go in steps of 5
+}
+
+% Creates a new command to include a perl script, the first parameter is the filename of the script (without .pl), the second parameter is the caption
+\newcommand{\perlscript}[2]{
+\begin{itemize}
+\item[]\lstinputlisting[caption=#2,label=#1]{#1.pl}
+\end{itemize}
+}
+
+%----------------------------------------------------------------------------------------
+%	DOCUMENT STRUCTURE COMMANDS
+%	Skip this unless you know what you're doing
+%----------------------------------------------------------------------------------------
+
+% Header and footer for when a page split occurs within a problem environment
+\newcommand{\enterProblemHeader}[1]{
+%\nobreak\extramarks{#1}{#1 continued on next page\ldots}\nobreak
+%\nobreak\extramarks{#1 (continued)}{#1 continued on next page\ldots}\nobreak
+}
+
+% Header and footer for when a page split occurs between problem environments
+\newcommand{\exitProblemHeader}[1]{
+%\nobreak\extramarks{#1 (continued)}{#1 continued on next page\ldots}\nobreak
+%\nobreak\extramarks{#1}{}\nobreak
+}
+
+\setcounter{secnumdepth}{0} % Removes default section numbers
+\newcounter{homeworkProblemCounter} % Creates a counter to keep track of the number of problems
+\setcounter{homeworkProblemCounter}{0}
+
+\newcommand{\homeworkProblemName}{}
+\newenvironment{homeworkProblem}[1][Part \arabic{homeworkProblemCounter}]{ % Makes a new environment called homeworkProblem which takes 1 argument (custom name) but the default is "Problem #"
+\stepcounter{homeworkProblemCounter} % Increase counter for number of problems
+\renewcommand{\homeworkProblemName}{#1} % Assign \homeworkProblemName the name of the problem
+\section{\homeworkProblemName} % Make a section in the document with the custom problem count
+\enterProblemHeader{\homeworkProblemName} % Header and footer within the environment
+}{
+\exitProblemHeader{\homeworkProblemName} % Header and footer after the environment
+}
+
+\newcommand{\problemAnswer}[1]{ % Defines the problem answer command with the content as the only argument
+\noindent\framebox[\columnwidth][c]{\begin{minipage}{0.98\columnwidth}#1\end{minipage}} % Makes the box around the problem answer and puts the content inside
+}
+
+\newcommand{\homeworkSectionName}{}
+\newenvironment{homeworkSection}[1]{ % New environment for sections within homework problems, takes 1 argument - the name of the section
+\renewcommand{\homeworkSectionName}{#1} % Assign \homeworkSectionName to the name of the section from the environment argument
+\subsection{\homeworkSectionName} % Make a subsection with the custom name of the subsection
+\enterProblemHeader{\homeworkProblemName\ [\homeworkSectionName]} % Header and footer within the environment
+}{
+\enterProblemHeader{\homeworkProblemName} % Header and footer after the environment
+}
+
+%----------------------------------------------------------------------------------------
+%	NAME AND CLASS SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\hmwkTitle}{Assignment\ \#$4$} % Assignment title
+\newcommand{\hmwkDueDate}{Monday,\ April\ 2,\ 2018} % Due date
+\newcommand{\hmwkClass}{CSC411} % Course/class
+\newcommand{\hmwkClassTime}{L0101} % Class/lecture time
+\newcommand{\hmwkAuthorName}{ZILI XIE} % Your name
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\title{
+\vspace{2in}
+\textmd{\textbf{\hmwkClass:\ \hmwkTitle}}\\
+\normalsize\vspace{0.1in}\small{Due\ on\ \hmwkDueDate}\\
+\vspace{0.1in}
+\vspace{3in}
+}
+
+\author{\textbf{\hmwkAuthorName}}
+\date{March 19, 2018} % Insert date here if you want it to appear below your name
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+\maketitle
+\clearpage
+%----------------------------------------------------------------------------------------
+%	PROBLEM 1
+%----------------------------------------------------------------------------------------
+% To have just one problem per page, simply put a \clearpage after each problem
+
+\begin{homeworkProblem}
+
+\begin{lstlisting}
+>>> env = Environment()
+
+>>> env.step(4)
+(array([0, 0, 0, 0, 1, 0, 0, 0, 0]), 'valid', False)
+
+>>> env.render()
+...
+.x.
+...
+====
+
+>>> env.step(5)
+(array([0, 0, 0, 0, 1, 2, 0, 0, 0]), 'valid', False)
+
+>>> env.render()
+...
+.xo
+...
+====
+
+>>> env.step(0)
+(array([1, 0, 0, 0, 1, 2, 0, 0, 0]), 'valid', False)
+
+>>> env.render()
+x..
+.xo
+...
+====
+
+>>> env.step(1)
+(array([1, 2, 0, 0, 1, 2, 0, 0, 0]), 'valid', False)
+
+>>> env.render()
+xo.
+.xo
+...
+====
+
+>>> env.step(8)
+(array([1, 2, 0, 0, 1, 2, 0, 0, 1]), 'win', True)
+
+>>> env.render()
+xo.
+.xo
+..x
+====
+\end{lstlisting}
+The attribute 'turn' indicates who is the next player. If 'turn' equals '1' then the player who use 'x' is going to play next. else is 'turn' equals '2' then the next player is the one who use 'o'.
+The attribute 'done' represents the status of tic-tac-toe game. If 'done' equals False then the game is at a stage when the game is still on going. Otherwise, the game has finished if 'done' equals True.
+
+\end{homeworkProblem}
+\clearpage
+%----------------------------------------------------------------------------------------
+%	PROBLEM 2
+%----------------------------------------------------------------------------------------
+
+\begin{homeworkProblem}
+\textbf{Part 2(a)}\\
+\begin{lstlisting}
+class Policy(nn.Module):
+    """
+    The Tic-Tac-Toe Policy
+    """
+    def __init__(self, input_size=27, hidden_size=256, output_size=9):
+        super(Policy, self).__init__()
+        self.fullyConnected1 = nn.Sequential(
+            nn.Linear(input_size, hidden_size),
+            nn.ReLU()
+        )
+        self.fullyConnected2 = nn.Sequential(
+            nn.Linear(hidden_size, output_size),
+            nn.Softmax()
+        )
+
+    def forward(self, x):
+        x = self.fullyConnected1(x)
+        x = self.fullyConnected2(x)
+        return x
+\end{lstlisting}
+The class $Policy$ can be implemented as above with one hidden layer.
+\newline\newline
+
+\textbf{Part 2(b)}\\
+First of all, the following code can be used for converting the 3 by 3 matrix grid to a 27 dimensional vector. The function below uses some code captured from $select\_action$
+
+\begin{lstlisting}
+def Part2b(state):
+    convert_27 = torch.from_numpy(state).long().unsqueeze(0)
+    convert_27 = torch.zeros(3,9).scatter_(0,convert_27,1).view(1,27)
+    return convert_27
+\end{lstlisting}
+
+Assuming we have a state of grid like the one below. 
+\begin{lstlisting}
+>>> env.render()
+x..
+ox.
+.xo
+====
+\end{lstlisting}
+Running the function $Part2b$ will convert whatever the state is into a 27-dimensional vector that look like the following output.
+
+
+
+\begin{lstlisting}
+>>> state = np.array([1,0,0,2,1,0,0,1,2])
+
+>>> Part2b(state)
+
+
+Columns 0 to 12 
+    0     1     1     0     0     1     1     0     0     1     0     0     0
+
+Columns 13 to 25 
+    1     0     0     1     0     0     0     0     1     0     0     0     0
+
+Columns 26 to 26 
+    1
+[torch.FloatTensor of size 1x27]
+
+
+>>> 
+\end{lstlisting}
+The first 9 indices of this 27 dimensions vector stands for the entries that are empty in 3 by 3 grid. 9th to 18th dimension of vector represents all the grids that are filled with 'x'. The last nine indices are the entries of 'o'.\newline\newline
+
+\textbf{Part 2(c)}\\
+9 policy values are the probabilities it choose from the next move for each of the 9 grids. \newline
+The select\_action samples the action from the probabilities. Then the policy is stochastic. 
+
+\end{homeworkProblem}
+\clearpage
+%----------------------------------------------------------------------------------------
+%	PROBLEM 3
+%----------------------------------------------------------------------------------------
+
+\begin{homeworkProblem}
+\textbf{Part 3(a)}\\
+\begin{lstlisting}
+def compute_returns(rewards, gamma=1.0):
+    """
+    Compute returns for each time step, given the rewards
+      @param rewards: list of floats, where rewards[t] is the reward
+                      obtained at time step t
+      @param gamma: the discount factor
+      @returns list of floats representing the episode's returns
+          G_t = r_t + \gamma r_{t+1} + \gamma^2 r_{t+2} + ... 
+
+    >>> compute_returns([0,0,0,1], 1.0)
+    [1.0, 1.0, 1.0, 1.0]
+    >>> compute_returns([0,0,0,1], 0.9)
+    [0.7290000000000001, 0.81, 0.9, 1.0]
+    >>> compute_returns([0,-0.5,5,0.5,-10], 0.9)
+    [-2.5965000000000003, -2.8850000000000002, -2.6500000000000004, -8.5, -10.0]
+    """
+    result = []
+    G = []
+    L = len(rewards)
+    for j in range(L):
+        G.append(gamma ** j)
+    G = np.array(G)
+    for i in range(L):
+        R = np.array(rewards[i:])
+        result.append(np.dot(R,G[0:len(R)]))
+    return result
+\end{lstlisting}
+The implementation of $compute\_returns$ function which takes a list of rewards and computes the returns $G_t = r_t + \gamma r_{t+1} + \gamma^2 r_{t+2} + ...$ can be shown as above. \newline
+
+\textbf{Part 3(b)}\\
+The backward pass cannot be computed during the episode because the reward is not fully recorded and thus computing the gradient may produce a biased return.
+
+\end{homeworkProblem}
+\clearpage
+
+%----------------------------------------------------------------------------------------
+%	PROBLEM 4
+%----------------------------------------------------------------------------------------
+\begin{homeworkProblem}
+\textbf{Part 4(a)}\\
+\begin{lstlisting}
+def get_reward(status):
+    """Returns a numeric given an environment status."""
+    return {
+            Environment.STATUS_VALID_MOVE: 10,
+            Environment.STATUS_INVALID_MOVE: -60,
+            Environment.STATUS_WIN: 80,
+            Environment.STATUS_TIE: -20,
+            Environment.STATUS_LOSE: -80
+    }[status]
+    
+\end{lstlisting}
+\textbf{Part 4(b)}\\
+The rewards for win and lose are +80 and -80. This 2 status are 2 extreme result among given status. The reward for valid and invalid move are +10 and -60. In doing so, I try to avoid the network being satisfied with making invalid moves. The reward for tie is -20. Even a tied result is at the middle of win and lose this is still not the case that we want to have.
+
+
+
+
+
+
+\end{homeworkProblem}
+\clearpage
+
+%----------------------------------------------------------------------------------------
+%	PROBLEM 5
+%----------------------------------------------------------------------------------------
+\begin{homeworkProblem}
+\textbf{Part 5(a)}\\
+\begin{figure}[!htb]
+  \includegraphics[width=\linewidth]{p5_training_curve.png}
+  \caption*{}\label{fig:part5}
+\end{figure}
+The curve of training was shown above. The gamma value was set to be 0.9 to get a result in a faster speed. learning rate value was shifted lower (0.0005) to avoid extreme values on average returns and the training being failed due to skipping minimum point. log\_interval was changed to be 500 to obtain more records. Total number of iterations are 50000.
+\clearpage
+\textbf{Part 5(b)}\\
+\begin{lstlisting}
+def p5b_diff_dim(env, policy, dim_list):
+    #dim_list = [32, 64, 128, 256]
+    table = list()
+    for size in dim_list:
+        env = Environment()
+        policy = Policy(hidden_size = size)
+        train(policy, env)
+        counts = game_simulation(env, policy, games = 100)
+        table.append(counts)
+    pair = (dim_list, table)
+    for i in range(len(dim_list)):
+        print("size= {}; win, lose, tie, total, invalid= {}".format(dim_list[i], table[i]))
+    return pair
+\end{lstlisting}
+Four different values of hidden units numbers are used for training policy. They are 32, 64, 128, 256. Result generated by the function can be show at below:
+\begin{lstlisting}
+size= 32; win, lose, tie, total, invalid= (625, 159, 216, 4449, 21)
+size= 64; win, lose, tie, total, invalid= (762, 118, 120, 4160, 13)
+size= 128; win, lose, tie, total, invalid= (663, 85, 252, 4552, 7)
+size= 256; win, lose, tie, total, invalid= (772, 60, 168, 4483, 5)
+\end{lstlisting}
+for the case of 256 hidden units, the statistic has the highest number of winning status outcome and smallest number of losing status observed. The result also has the lowest ratio of invalid move among 4 values. It is saying the more number of hidden units used the less likely the policy will choose a invalid move and more probability to win against random.
+
+\clearpage
+\textbf{Part 5(c)}\\
+\begin{figure}[!htb]
+  \includegraphics[width=\linewidth]{p5c_training_curve.png}
+  \caption*{}\label{fig:part5}
+\end{figure}
+\newline The number of invalid moves became stable after 4000th episodes, so that should be the time when policy learned how to stop making invalid moves.
+\clearpage
+\textbf{Part 5(d)}\\
+In the 100 times simulation of game play, the policy won the game 90 times, had tie result 6 times, and lose the game for 4 times. In most of the cases, my agent learn how to block the random policy. My agent also know how to play when there is just one step to win. It never make mistake in this case. Sometimes the strategy below can be observed, my trained agent choose to make the first move at the grid in very middle. This is usually the easiest way to win this game in real world if you play first.
+\begin{lstlisting}
+game: 2
+
+.xo
+...
+...
+====
+xxo
+...
+.o.
+====
+xxo
+..o
+xo.
+====
+xxo
+x.o
+xo.
+====
+=======================
+game: 3
+
+ox.
+...
+...
+====
+oxx
+..o
+...
+====
+oxx
+o.o
+x..
+====
+oxx
+oxo
+x..
+====
+=======================
+game: 13
+
+.x.
+...
+.o.
+====
+.xx
+..o
+.o.
+====
+xxx
+..o
+.o.
+====
+=======================
+game: 16
+
+.x.
+...
+..o
+====
+xx.
+..o
+..o
+====
+xxx
+..o
+..o
+====
+=======================
+game: 18
+
+ox.
+...
+...
+====
+oxx
+...
+o..
+====
+oxx
+.xo
+o..
+====
+oxx
+.xo
+ox.
+====
+
+>>> 
+
+\end{lstlisting}
+
+\end{homeworkProblem}
+\clearpage
+
+%----------------------------------------------------------------------------------------
+%	PROBLEM 6
+%----------------------------------------------------------------------------------------
+\begin{homeworkProblem}
+\begin{figure}[!htb]
+  \includegraphics[width=\linewidth]{part6.png}
+  \caption*{}\label{fig:part6}
+\end{figure}
+The number of game status(win, lose, tie) for different episodes are shown in plot above. From the plot we can find that the number of game winning in 100 games increases from 60 to about 90. The curves for lose and tie decrease as the episodes number increase because the network knows these status are not so good and try to avoid them.
+
+\end{homeworkProblem}
+\clearpage
+
+%----------------------------------------------------------------------------------------
+
+%	PROBLEM 7
+%----------------------------------------------------------------------------------------
+\begin{homeworkProblem}
+\begin{figure}[!htb]
+\minipage{0.33\textwidth}
+  \includegraphics[width=\linewidth]{grid0.png}
+  \caption*{P vs Episode for move 0}\label{fig:baldwin}
+\endminipage\hfill
+\minipage{0.33\textwidth}
+  \includegraphics[width=\linewidth]{grid1.png}
+  \caption*{P vs Episode for move 1}\label{fig:hader}
+\endminipage\hfill
+\minipage{0.33\textwidth}
+  \includegraphics[width=\linewidth]{grid2.png}
+  \caption*{P vs Episode for move 2}\label{fig:baldwin}
+\endminipage\hfill
+\end{figure}
+
+\begin{figure}[!htb]
+\minipage{0.33\textwidth}
+  \includegraphics[width=\linewidth]{grid3.png}
+  \caption*{P vs Episode for move 3}\label{fig:baldwin}
+\endminipage\hfill
+\minipage{0.33\textwidth}
+  \includegraphics[width=\linewidth]{grid4.png}
+  \caption*{P vs Episode for move 4}\label{fig:hader}
+\endminipage\hfill
+\minipage{0.33\textwidth}
+  \includegraphics[width=\linewidth]{grid5.png}
+  \caption*{P vs Episode for move 5}\label{fig:baldwin}
+\endminipage\hfill
+\end{figure}
+
+\begin{figure}[!htb]
+\minipage{0.33\textwidth}
+  \includegraphics[width=\linewidth]{grid6.png}
+  \caption*{P vs Episode for move 6}\label{fig:baldwin}
+\endminipage\hfill
+\minipage{0.33\textwidth}
+  \includegraphics[width=\linewidth]{grid7.png}
+  \caption*{P vs Episode for move 7}\label{fig:baldwin}
+\endminipage\hfill
+\minipage{0.33\textwidth}
+  \includegraphics[width=\linewidth]{grid8.png}
+  \caption*{P vs Episode for move 8}\label{fig:baldwin}
+\endminipage
+\end{figure}
+
+As the 9 plot above shows, the policy plays its first move on position 4 and 6 most of the time. for other positions, the probabilities are equally the same.
+
+\end{homeworkProblem}
+\clearpage
+
+%----------------------------------------------------------------------------------------
+%	PROBLEM 8
+%----------------------------------------------------------------------------------------
+\begin{homeworkProblem}
+
+This part I mainly focus on some games that the agent lose to random policy. In this simulation of 100 games played, Game 5, 18, 32, 49, 76, 81 are lose. Here are 3 samples from the list.\newline
+
+\begin{minipage}{0.30\textwidth}
+\begin{lstlisting}
+Games: 81
+...
+.o.
+.x.
+====
+...
+.o.
+oxx
+====
+..x
+.oo
+oxx
+====
+.xx
+ooo
+oxx
+====
+\end{lstlisting}
+\end{minipage}\hfill
+\begin{minipage}{0.30\textwidth}
+\begin{lstlisting}
+Games: 76
+..o
+..x
+...
+====
+o.o
+..x
+.x.
+====
+ooo
+.xx
+.x.
+====
+\end{lstlisting}
+\end{minipage}\hfill
+\begin{minipage}{0.30\textwidth}
+\begin{lstlisting}
+Games: 49
+...
+...
+.xo
+====
+.x.
+.o.
+.xo
+====
+xxo
+.o.
+.xo
+====
+xxo
+.oo
+xxo
+====
+\end{lstlisting}
+\end{minipage}
+
+In Game 81, the random policy which was represented by 'o' won because the agent failed to block 'o' on grid 3. The agent knows how to block when in round 3 the random policy was about to move on grid 2. In this game random policy is more likely to win because it played its first move on grid 4.
+
+In Game 76, the second move of agent should not be grid 7, because it will lead the sequence of 'x' to the edge of box.
+
+
+\end{homeworkProblem}
+\clearpage
+
+%----------------------------------------------------------------------------------------
+
+\end{document}
